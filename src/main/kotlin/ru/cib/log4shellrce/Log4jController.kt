@@ -2,6 +2,7 @@ package ru.cib.log4shellrce
 
 import org.apache.logging.log4j.LogManager
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.RequestHeader
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 
@@ -13,9 +14,8 @@ class Log4jController {
     }
 
     @GetMapping("/log")
-    fun logInput(@RequestParam input: String): String {
-        // Уязвимость: логирование непроверенных пользовательских данных
-        logger.info("Received input: $input")
-        return "Logged: $input"
+    fun logInput(@RequestHeader("X-Api-Version") apiVersion: String): String {
+        logger.info(apiVersion)
+        return "Logged: $apiVersion"
     }
 }
